@@ -4,23 +4,35 @@ import model.MaskedWord;
 import utils.UIUtils;
 
 public class Miracle {
-    private Gamer gamer = new Gamer();
+    private Gamer gamer = new Gamer("Mariia");
     private DataSourse ds = new DataSourse("C:/Users/Mariia_Shushakova/IdeaProjects/Miracle/src/words.txt");
-    private MaskedWord maskedWord = new MaskedWord();
+    private MaskedWord maskedWord;
 
     public void start(){
         String word = ds.getRandomWord();
 
-        String letter = UIUtils.readInput("Type letter: ");
-        if(letter.length() !=1){
-            UIUtils.output("Should be one letter!");
+        maskedWord = new MaskedWord(word);
+
+        while(gamer.getAttempts() > 0 && !word.equalsIgnoreCase(maskedWord.getMaskedWord())){
+            UIUtils.output(maskedWord.getMaskedWord());
+
+            String letter = UIUtils.readInput("Type letter: ");
+            if(letter.length() !=1){
+                UIUtils.output("Should be one letter!");
+                continue;
+            }
+
+            if (word.indexOf(letter) == -1){
+                UIUtils.output("There in not such letter in word");
+                gamer.decreaseAttempts();
+            } else {
+                UIUtils.output("Letter is right :)");
+
+                maskedWord.addLetter(letter);
+            }
         }
 
-        if (word.indexOf(letter) == -1){
-            UIUtils.output("There in not such letter in word");
-            gamer.decreaseAttempts();
-        } else {
-            System.out.println("Letter is right :)");
-        }
+        UIUtils.output("Game is over! " + gamer.getName() + " you " + (word.equalsIgnoreCase(maskedWord.getMaskedWord()) ? "win!" : "lose!"));
+
     }
 }

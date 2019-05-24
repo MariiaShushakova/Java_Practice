@@ -18,7 +18,6 @@ public class DataSourse {
         } catch (IOException e) {
             UIUtils.output("Error when read file");
         }
-
     }
 
     public String getRandomWord(){
